@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Hiccup-bridge by myguidingstar</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Hiccup-bridge</h1>
+        <p>Hiccup to html, html to hiccup.</p>
+
+        <p class="view"><a href="https://github.com/myguidingstar/hiccup-bridge">View the Project on GitHub <small>myguidingstar/hiccup-bridge</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/myguidingstar/hiccup-bridge/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/myguidingstar/hiccup-bridge/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/myguidingstar/hiccup-bridge">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Hiccup-bridge</h1>
+
+<p>Hiccup-bridge is a conversion tool between plain html and plain Hiccup form.</p>
+
+<p><strong><em>Example</em></strong></p>
+
+<p><code>hicv/hello.html</code></p>
+
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">content=</span><span class="s">"text/html;charset=utf-8"</span> <span class="na">http-equiv=</span><span class="s">"content-type"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Hello<span class="nt">&lt;/title&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Hello World<span class="nt">&lt;/h1&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+<p>Above HTML will be converted to following and vice versa.</p>
+
+<p><code>hicv/hello.clj</code></p>
+
+<div class="highlight"><pre><span class="p">([</span><span class="ss">:html</span>
+  <span class="p">[</span><span class="ss">:head</span>
+   <span class="p">[</span><span class="ss">:meta</span>
+    <span class="p">{</span><span class="ss">:http-equiv</span> <span class="s">"content-type"</span>, <span class="ss">:content</span> <span class="s">"text/html;charset=utf-8"</span><span class="p">}]</span>
+   <span class="p">[</span><span class="ss">:title</span> <span class="s">"Hello"</span><span class="p">]]</span>
+  <span class="p">[</span><span class="ss">:body</span> <span class="p">[</span><span class="ss">:h1</span> <span class="s">"Hello World"</span><span class="p">]]])</span>
+</pre></div>
+
+<h2>Usage</h2>
+
+<h3>As a library</h3>
+
+<p>Add <code>[hicv "1.0.0"]</code> to your project dependencies, then:</p>
+
+<div class="highlight"><pre><span class="p">(</span><span class="nf">use</span> <span class="o">'</span><span class="p">[</span><span class="nv">to-hiccup.core</span> <span class="ss">:only</span> <span class="p">[</span><span class="nv">html-&gt;hiccup</span><span class="p">]])</span>
+
+<span class="p">(</span><span class="nf">html-&gt;hiccup</span> <span class="s">"&lt;foo&gt;&lt;bar&gt;buzz&lt;/bar&gt;&lt;/foo&gt;"</span><span class="p">)</span>
+<span class="c1">;; -&gt; ([:foo [:bar "buzz"]])</span>
+</pre></div>
+
+<h3>Html to Hiccup</h3>
+
+<pre><code>% lein hicv 2clj
+</code></pre>
+
+<p>All HTML files under "hicv" directory are converted to Hiccup form.<br></p>
+
+<p><strong><em>Example</em></strong></p>
+
+<pre><code>% mkdir hicv
+% curl https://github.com/ &gt; hicv/github.html
+% ls -l hicv
+total 48
+-rw-r--r--  1 fatrow  staff  22239  7  7 09:14 github.html
+%
+% lein hicv 2clj
+%
+% ls -l hicv
+total 96
+-rw-r--r--  1 fatrow  staff  21833  7  7 09:16 github.clj     &lt;- generated
+-rw-r--r--  1 fatrow  staff  22239  7  7 09:14 github.html
+</code></pre>
+
+<p>You can specify files you want to convert.</p>
+
+<pre><code>% lein hicv 2clj hicv/hello.html
+</code></pre>
+
+<h3>Hiccup to Html</h3>
+
+<pre><code>% lein hicv 2html
+</code></pre>
+
+<p><strong><em>Example</em></strong></p>
+
+<pre><code>% ls -l hicv
+total 48
+-rw-r--r--  1 fatrow  staff  21833  7  7 09:16 github.clj
+%
+% lein hicv 2html
+% ls -l hicv
+total 88
+-rw-r--r--  1 fatrow  staff  21833  7  7 09:16 github.clj
+-rw-r--r--  1 fatrow  staff  18622  7  7 09:19 github.html    &lt;- generated
+</code></pre>
+
+<h2>Installation to Leiningen</h2>
+
+<div class="highlight"><pre>% lein plugin install hicv 1.0.0
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/myguidingstar">myguidingstar</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
